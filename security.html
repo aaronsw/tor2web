@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>tor2web: security concerns</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body><div class="header">
+<h1>tor2web<span class="rest">: security concerns</span></h1>
+</div><div class="body">
+
+<p>For maximum security, install your own copy of <a href="https://www.torproject.org/">Tor</a> and use that to visit the <code>.onion</code> URLs. Tor will encrypt and anonymize your requests and use digital signatures to verify you're talking to the actual server.</p>
+
+<p>tor2web uses SSL so that others can't eavesdrop on your requests, but this doesn't protect you from people looking at your own browser history or if someone compromises the tor2web server itself. In addition, in its default usage people will be able to tell which Tor site you're visiting. To prevent this, you can use <code>x.tor2web.org</code> as follows:</p> 
+ 
+<pre><a href="https://x.tor2web.org/duskgytldkxiuqc6/">https://x.tor2web.org/duskgytldkxiuqc6/</a></pre> 
+
+<p>This isn't turned on by default since it breaks most internal site links.</p>
+ 
+</div>
+<address>
+  <p>a disruptive website by <a href="http://virgil.gr">Virgil</a> Griffith (virgil@caltech.edu) and <a href="http://www.aaronsw.com/">Aaron Swartz</a> (<a href="mailto:me@aaronsw.com">me@aaronsw.com</a>)</p>
+</body>
+</html>
