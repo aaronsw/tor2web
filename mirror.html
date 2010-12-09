@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>tor2web: what about mirroing?</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body><div class="header">
+<h1><a href="/">tor2web</a><span class="rest">: what about mirroring?</span></h1>
+</div><div class="body">
+
+<p>It's possible to imagine some hidden Web services becoming quite popular and overloaded or somehow getting shut down. It would be nice if other hidden Web services mirrored their content so that users could still access it. And it would be nice if there was a directory service that would point users to an accessible copy of the content. Here's a proposal for such a system:</p>
+
+<ol>
+  <li><p>You have a bunch of files you'd like to publish. You publish them via HTTP and publish a list at <code>/files.txt</code> mapping their SHA1 to their path on your server.</p></li>
+
+  <li><p>You register your HTTP server with a directory server. The
+  directory server reads your <code>files.txt</code> and adds it to its index. Now
+  whenever someone asks for a SHA1 you host, it redirects them to it on
+  your server (perhaps using <a href="http://www.open-content.net/specs/draft-jchapweske-caw-03.html">CAW</a> as well).</p></li>
+
+  <li><p>Someone else asks the directory server for a list of the most
+  popular files. They download a copy, publish them via
+  HTTP, publish a <code>files.txt</code> for them, and notify the directory. Now the
+  directory server can round-robin between the two. (To prevent against directory poisoning, the directory can occasionally spot-check the servers in its index to make sure the files they server match the hash.)</p></li>
+</ol>
+
+<p>The end result is that you can point users at a URL like:</p>
+
+<p><code>http://dir.theinfo.org/sha1/ed70c57d7564e994e7d5f6fd6967cea8b347efbc</code></p>
+
+<p>and be fairly confident that they can get a copy.</p>
+
+<p>Note that such a system need not be limited to tor2web servers proxying for hidden HTTP servers. It could redirect to the file on any Web-accessible system.</p>
+
+</div>
+<address>
+  maintained by <a href="http://www.aaronsw.com/">Aaron Swartz</a> (<a href="mailto:me@aaronsw.com">me@aaronsw.com</a>)
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>tor2web: how to run a proxy</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body><div class="header">
+<h1><a href="/">tor2web</a><span class="rest">: how to run a proxy</span></h1>
+</div><div class="body">
+
+<p>Want to set up a proxy of your own? Here's how:</p>
+
+<ol>
+<li><p>Get a server. For simplicity, we'll assume you're running a recent version of Ubuntu. (Don't have a server? You can get one using Amazon's EC2 with <a href="http://alestic.com/">Ubuntu AMIs</a>.)</p></li>
+
+<li><p>Update your <code>sources.list</code> so that you can install Tor. (<a href="https://wiki.torproject.org/noreply/TheOnionRouter/TorOnDebian">Details here.</a>)</p></li>
+
+<li><p><code>apt-get install tor</code></p>
+<p>At this point you should be able to visit hidden services using Tor's SOCKS proxy. You can test this with:</p><p><code>curl -i --socks4a 127.0.0.1:9050 http://duskgytldkxiuqc6.onion/</code></p>
+</li>
+
+<li><p><code>apt-get install polipo</code></p>
+  
+<p>Polipo is a caching web proxy that's commonly used with Tor. It will keep copies of frequently-requested pages to speed up access.</p>
+
+<p>Polipo has a crashing bug that seems to get triggered pretty frequently, so you'll want to run it under supervise or something similar to restart it.</p></li>
+
+<li><p>Modify <code>/etc/polipo/config</code> to include:</p>
+  
+<p><pre>
+socksParentProxy = "localhost:9050"
+localDocumentRoot = ""
+</pre></p></li>
+
+<li><code>/etc/init.d/polipo restart</code>
+
+<p>You should now be able to visit hidden services thru Polipo. You can test this with:</p>
+
+<p><code>curl -x 127.0.0.1:8123 http://duskgytldkxiuqc6.onion/</code></p></li>
+
+<li><p><code>apt-get install privoxy</code></p>
+
+<p>Privoxy is an HTTP proxy that can be used with Tor to proxy HTTP connections.</p>
+</li>
+
+<li><p>Configure Privoxy to work with Tor. (<a href="https://wiki.torproject.org/noreply/TheOnionRouter/PrivoxyConfig">Details here.</a>) You'll want to replace the line:</p>
+  
+<p><code>forward-socks4a / 127.0.0.1:9050 .</code></p>
+  
+<p>with:</p>
+
+<p><code>forward / localhost:8123</code></p>
+
+<p>so that Privoxy gives requests to Polipo instead of directly to Tor. You'll also need to add the line:</p>
+
+<p><code>accept-intercepted-requests 1</code></p>
+
+<p>And you'll probably want to comment out the lines with <code>actionsfile</code> and <code>filterfile</code>, since we're just trying to protect publishers, not readers.</p>
+</li>
+<li><p><code>/etc/init.d/privoxy restart</code></p>
+
+<p>You should now be able to visit hidden services thru Privoxy. You can test this with:</p>
+
+<p><code>curl -x 127.0.0.1:8118 http://duskgytldkxiuqc6.onion/</code></p>
+</li>
+<li><p><code>apt-get install nginx</code></p>
+
+<p>nginx is a web server and reverse proxy, which we can use to accept requests and pass them to Privoxy.</p></li>
+
+<li><p>Modify nginx's config file to not keep logs. You need to remove both the access log and the error log (the error log prints requests and their source IP addresses on any failure).</p></li>
+
+<li><p>Modify <code>/etc/nginx/sites-enabled/default</code> to include:</p>
+
+<p><pre>
+server {
+    listen   80;
+    server_name  localhost;
+    location / {
+        proxy_pass  http://127.0.0.1:8118;
+        proxy_read_timeout 2000;
+        if ($host ~* (.*).tor2web.com) {
+            set $server_id $1;
+        }
+        proxy_set_header Host $server_id.onion;
+    }
+}
+</pre></p>
+<p>This rewrites requests for Privoxy.</p>
+
+<p>If you're already running a web server on port 80, you'll want to have nginx run on a different port and configure your main web server to proxy *.tor2web.com requests to nginx.</p>
+</li>
+<li>
+  <p><code>/etc/init.d/nginx restart</code></p>
+
+  <p>You should now be able to visit hidden services thru nginx. Test this with:</p>
+
+  <p><code>curl -H "Host: duskgytldkxiuqc6.tor2web.com" -i http://127.0.0.1/</code></p>
+  </li>
+<li>
+  <p>Send your IP address to <a href="mailto:me@aaronsw.com">me@aaronsw.com</a> and ask to be added to the <code>*.tor2web.com</code> round-robin. This will allow your server to respond to requests from the public for Tor hidden services.</p>
+</li>
+</ol>
+
+<p>That's it!</p>
+
+<p>If you have trouble with the process or would like a different way of doing it, let me know. If you want to build scripts or tools to simplify this process, that would be great too. You might also be interested in <a href="https://www.torproject.org/docs/tor-doc-relay.html.en">running a Tor relay</a>.</p>
+
+<p><strong>See also:</strong> <a href="legal">Is this legal?</a></p>
+
+<!--
+  <li>
+    <p><code>apt-get install lighttpd</code></p>
+
+    <p>lighttpd is a web server, which we can use to accept requests and pass them to Privoxy.</p>
+  </li>
+  <li><p>Modify lighttpd's config not to keep logs. You need to remove both the access log and the error log (the error log prints requests and their source IP addresses on any failure).</p></li>
+  <li>
+    <p>Modify <code>/etc/lighttpd/lighttpd.conf</code> to include:<p>
+
+    <p><pre>
+  server.modules += (
+    "mod_proxy"
+  )
+
+  proxy.server = ( "" => ( (
+    "host" => "127.0.0.1",
+    "port" => 8118
+  ) ) )
+  </pre></p>
+
+    <p>(You can put the proxy.server block within an $HTTP directive to limit it to certain domains.)</p>
+
+    <p>If you're already running a web server on port 80, you'll want to have lighttpd run on a different port and configure your main web server to proxy *.tor2web.com requests to lighttpd.</p>
+
+  </li>
+  <li>
+    <p><code>/etc/init.d/lighttpd restart</code></p>
+
+    <p>You should now be able to visit hidden services thru lighttpd. Test this with:</p>
+
+    <p><code>curl -H "Host: duskgytldkxiuqc6.tor2web.com" -i http://127.0.0.1/</code></p>
+    </li>
+    -->
+</div>
+<address>
+  maintained by <a href="http://www.aaronsw.com/">Aaron Swartz</a> (<a href="mailto:me@aaronsw.com">me@aaronsw.com</a>)
+</body>
+</html>

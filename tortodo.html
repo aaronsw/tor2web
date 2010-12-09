@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>tor2web: how can Tor help?</title>
+	<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body><div class="header">
+<h1><a href="/">tor2web</a><span class="rest">: how can Tor help?</span></h1>
+</div><div class="body">
+
+<h2>Support half-anonymity</h2>
+
+<p>Right now when a client connects to a hidden server, both parties pick a "rendezvous point" and create anonymous connections to it, so that neither side knows the others identity. The identity of tor2web proxies, however, are public, so there is no point in disguising their identity.</p>
+
+<p>If Tor had an option to allow the tor2web proxies to select <em>themselves</em> as rendezvous points, it could significantly speed things up.</p>
+
+<p><strong>STATUS:</strong> Roger says he's hesitant to support this. I would be happy even if it was only available to tor2web proexies.</p>
+
+<h2>Speed up network services</h2>
+
+<p>Support more things like <a href="https://www.torproject.org/projects/hidserv">NLnet Project: Speed Up Tor Hidden Services</a>.</p>
+
+<h2>Rewrite tor2web URLs</h2>
+
+<p>It would be great if Privoxy (the HTTP proxy most commonly used with Tor) could rewrite requests to <code>*.tor2web.com</code> to be requests to <code>*.onion</code>. This would allow people with Tor installed to get the full security guarantees of Tor when following links to tor2web services. It would also make it easier to run a tor2web proxy, since Privoxy would handle all the necessary rewriting.</p>
+
+<h2>Automated testing of tor2web proxies</h2>
+
+<p>tor2web proxies frequently go down, but this is difficult to detect because of the long and variable lags in returning uncached pages as well as frequent downtime from even the most popular network services. Reliable tools to detect whether a proxy is actually down, notify its owner, and remove it from the DNS round robbin would be an enormous help.</p>
+
+<h2>Consistent hashing DNS server</h2>
+
+<p>There are multiple caching proxies that server <code>*.tor2web.com</code> requests. If users are directed to select one at random, this leads to cache fragmentation. Ideally, the DNS server would use a consistent hashing scheme to return a particular server for each onion domain.</p>
+
+</div>
+<address>
+  maintained by <a href="http://www.aaronsw.com/">Aaron Swartz</a> (<a href="mailto:me@aaronsw.com">me@aaronsw.com</a>)
+</body>
+</html>
