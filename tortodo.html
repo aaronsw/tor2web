@@ -16,15 +16,19 @@
 
 <p>If Tor had an option to allow the tor2web proxies to select <em>themselves</em> as rendezvous points, it could significantly speed things up.</p>
 
-<p><strong>STATUS:</strong> Roger says he's hesitant to support this. I would be happy even if it was only available to tor2web proexies.</p>
+<p><strong>STATUS:</strong> Roger says he's hesitant to support this.</p>
 
 <h2>Speed up network services</h2>
 
 <p>Support more things like <a href="https://www.torproject.org/projects/hidserv">NLnet Project: Speed Up Tor Hidden Services</a>.</p>
 
-<h2>Rewrite tor2web URLs</h2>
+<h2>Add Tor support to nginx</h2>
 
-<p>It would be great if Privoxy (the HTTP proxy most commonly used with Tor) could rewrite requests to <code>*.tor2web.com</code> to be requests to <code>*.onion</code>. This would allow people with Tor installed to get the full security guarantees of Tor when following links to tor2web services. It would also make it easier to run a tor2web proxy, since Privoxy would handle all the necessary rewriting.</p>
+<p>It would be great if <code>nginx</code> (the caching proxy we use with <code>tor2web</code>) support Tor (i.e. SOCKS4a) so that we didn't have to proxy requests through <code>privoxy</code> as well.</p>
+
+<h2>Create a read-only version of the browser bundle</h2>
+
+<p>It would be nice if there was a Tor browser bundle that only handled .onion requests so that people could visit .onion websites without routing all of their traffic through Tor.</p>
 
 <h2>Automated testing of tor2web proxies</h2>
 
