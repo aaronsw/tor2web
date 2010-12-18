@@ -22,7 +22,7 @@
 
 <li><p><code>apt-get install privoxy</code></p>
 
-<p>Squid (our cache) doesn't currently speak SOCKS; Privoxy is required to translate normal HTTP requests to SOCKS.</p>
+<p>Apache (our webserver) doesn't currently speak SOCKS; Privoxy is required to translate normal HTTP requests to SOCKS.</p>
 
 <p>Replace <code>/etc/privoxy/config</code> with <a href="/conf/config">our Privoxy config</a> and restart:</p>
 
@@ -32,25 +32,17 @@
 
 <p><code>curl -x 127.0.0.1:8118 http://duskgytldkxiuqc6.onion/</code></p>
 </li>
-<li><p><code>apt-get install squid</code></p>
+<li><p><code>apt-get install apache2</code></p>
 
-<p>Squid is a caching proxy; it speeds up tor2web requests by caching the results.</p>
+<p>Apache is being used as caching proxy; it speeds up tor2web requests by caching the results.</p>
 
-<p>Edit <code>/etc/default/squid</code> and set SQUID_MAXFD to <code>65536</code> instead of <code>1024</code>.
+<p>Replace the config file <code>/etc/apache2/apache2.conf</code> with <a href="/conf/apache2.conf">our version</a>, then restart Apache:</p>
 
-<p>Download <a href="/conf/rewriteurl.pl">rewriteurl.pl</a> and place it in <code>/etc/squid</code> and make it executable. Test it with:</p>
-
-<p><code>echo "http://duskgytldkxiuqc6.tor2web.com/foo" | ./rewriteurl.pl</code></p> 
-
-<p>(It should return <code>http://duskgytldkxiuqc6.onion/foo</code>.)</p>
-
-<p>Then replace <code>/etc/squid/squid.conf</code> with <a href="/conf/squid.conf">our Squid config</a> and restart:</p>
-
-<p><code>/etc/init.d/squid restart</code></p>
+<p><code>/etc/init.d/apache2 restart</code></p>
 
 <p>You should now be a tor2web server. Test this with:</p>
 
-<p><code>curl -H "Pragma: none" -H "Host: duskgytldkxiuqc6.tor2web.com" -i http://127.0.0.1/</code></p>
+<p><code>curl -k -H "Pragma: none" -H "Host: duskgytldkxiuqc6.tor2web.org" -i https://127.0.0.1/</code></p>
 
 <p>Run it again and it should return instantly from the cache.</p>
 
