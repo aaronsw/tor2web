@@ -10,7 +10,17 @@
 <h1><a href="/">tor2web</a><span class="rest">: security concerns</span></h1>
 </div><div class="body">
 
+<h2>Install Tor</h2>
+
 <p>For maximum security, install your own copy of <a href="https://www.torproject.org/">Tor</a> and use that to visit the <code>.onion</code> URLs. Tor will encrypt and anonymize your requests and use digital signatures to verify you're talking to the actual server.</p>
+
+<p>If you don't want to access all your pages through Tor, but just <code>.onion</code> URLs, set your browser's PAC file to:
+
+<pre>http://tor2web.org/conf/proxy.pac</pre>
+
+<p>On Mac OS X, you can do this by clicking the Apple Menu, choosing "System Preferences...", clicking the button "Network", clicking the green dot on the left, clicking the button "Advanced...", choosing the tab "Proxies", checking "Automatic Proxy Configuration" on the left and clicking it, then putting this in the "URL:" box, clicking "OK", then clicking "Apply".</p> 
+
+<h2>Hide domain names</h2>
 
 <p>tor2web uses SSL so that others can't eavesdrop on your requests, but this doesn't protect you from people looking at your own browser history or if someone compromises the tor2web server itself. In addition, in its default usage people will be able to tell which Tor site you're visiting. To prevent this, you can use <code>x.tor2web.org</code> as follows:</p> 
  
