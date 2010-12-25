@@ -1,0 +1,15 @@
+# This is the main tor2web privoxy configuration file
+# This goes into /etc/privoxy/config
+#
+listen-address  127.0.0.1:8118
+toggle  0
+accept-intercepted-requests 1
+forward-socks4a / 127.0.0.1:9050 .
+confdir /etc/privoxy
+
+toggle  1
+enable-remote-toggle 0
+enable-edit-actions 0
+enable-remote-http-toggle 0
+buffer-limit 4096
+templdir /etc/privoxy/templates
