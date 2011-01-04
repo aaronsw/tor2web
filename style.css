@@ -1,7 +1,7 @@
 html, body { margin: 0; padding: 0; }
 .header { background-color: #47A03C; margin: 0; padding: .2em;}
 .header a:link, .header a:visited { color: white; text-decoration: underline;}
-h1 { text-align: center; font-family: "Monaco", "MPW", monospaced; letter-spacing: -.1em;}
+h1 { text-align: center; font-family: "American Typewriter", "Andale Mono", "Monaco", "MPW", monospaced; color: white; }
 .rest { font-weight: normal; }
 h2 { margin-left: -1em; margin-top: 1.5em;}
 .body { margin: auto; width: 50em; padding-top: 1em;}
