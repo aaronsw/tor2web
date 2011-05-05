@@ -3,3 +3,4 @@ toggle  0
 accept-intercepted-requests 1
 forward-socks4a / 127.0.0.1:9050 .
 templdir /etc/privoxy/templates
+actionsfile privacy.actions
