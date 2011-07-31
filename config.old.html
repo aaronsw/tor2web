@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -29,10 +30,10 @@
 
 <li><p>Modify <code>/etc/polipo/config</code> to include:</p>
   
-<p><pre>
+<pre>
 socksParentProxy = "localhost:9050"
 localDocumentRoot = ""
-</pre></p></li>
+</pre></li>
 
 <li><code>/etc/init.d/polipo restart</code>
 
@@ -73,7 +74,7 @@ localDocumentRoot = ""
 
 <li><p>Modify <code>/etc/nginx/sites-enabled/default</code> to include:</p>
 
-<p><pre>
+<pre>
 server {
     listen   80;
     server_name  localhost;
@@ -86,7 +87,7 @@ server {
         proxy_set_header Host $server_id.onion;
     }
 }
-</pre></p>
+</pre>
 <p>This rewrites requests for Privoxy.</p>
 
 <p>If you're already running a web server on port 80, you'll want to have nginx run on a different port and configure your main web server to proxy *.tor2web.com requests to nginx.</p>
@@ -145,6 +146,5 @@ server {
     -->
 </div>
 <address>
-  maintained by <a href="http://www.aaronsw.com/">Aaron Swartz</a> (<a href="mailto:me@aaronsw.com">me@aaronsw.com</a>)
-</address></body>
+ <a href="mailto:info@tor2web.org">info@tor2web.org</a></address></body>
 </html>
