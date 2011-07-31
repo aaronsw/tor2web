@@ -1,4 +1,4 @@
-html, body { margin: 0; padding: 0; font-family: "Georgia", "Times New Roman", serif; font-size:1em;  letter-spacing: .025em;}
+html, body { margin: 0; padding: 0; font-family: "Times", "Times New Roman", serif; font-size:1em;  letter-spacing: .025em;}
 .header { background-color: #47A03C; margin: 0; padding: .2em; color: white;}
 .header a:link, .header a:visited { color: white; font-style:italic;}
 h1 { text-align: center; font-family: "Monaco", "MPW", monospaced; letter-spacing: -.05em; font-weight:normal;}
